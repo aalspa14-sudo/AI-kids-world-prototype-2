@@ -102,8 +102,8 @@ body {
   overflow: visible;
   border: 1px solid rgba(255, 255, 255, 0.74);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(226, 239, 255, 0.42) 24%, rgba(210, 232, 255, 0.34) 100%),
-    linear-gradient(118deg, #a78bfa 0%, #5b7cff 33%, #22c7e8 58%, #f472b6 82%, #ffb454 100%);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(226, 239, 255, 0.18) 42%, rgba(255, 255, 255, 0.12) 100%),
+    linear-gradient(135deg, #5b2fe8 0%, #3566e8 45%, #159cc8 100%);
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.64),
     inset 0 -13px 24px rgba(69, 63, 184, 0.16),
@@ -440,8 +440,8 @@ body {
 .nav-mobile-3d {
   border: 1px solid rgba(255, 255, 255, 0.74);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(226, 239, 255, 0.42) 48%, rgba(255, 246, 252, 0.42) 100%),
-    linear-gradient(118deg, #a78bfa 0%, #5b7cff 36%, #22c7e8 62%, #f472b6 100%);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(226, 239, 255, 0.18) 48%, rgba(255, 255, 255, 0.12) 100%),
+    linear-gradient(135deg, #5b2fe8 0%, #3566e8 45%, #159cc8 100%);
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.62),
     inset 0 -12px 24px rgba(69, 63, 184, 0.16),
@@ -584,6 +584,32 @@ body {
 }
 .anim-bob { animation: bob 2.4s ease-in-out infinite; }
 
+.ai-floatie {
+  --float-scale: 1;
+  z-index: 0;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 18px;
+  opacity: 0.28;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -8px 14px rgba(93, 105, 190, 0.1),
+    0 12px 24px rgba(93, 105, 190, 0.12);
+  filter: drop-shadow(0 8px 14px rgba(93, 105, 190, 0.12));
+  backdrop-filter: blur(8px) saturate(1.1);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+}
+
+.ai-floatie svg {
+  filter: drop-shadow(0 2px 0 rgba(255, 255, 255, 0.66));
+}
+
+@media (max-width: 767px) {
+  .ai-floatie {
+    --float-scale: 0.78;
+    opacity: 0.2;
+  }
+}
+
 @keyframes shine {
   0% { transform: translateX(-120%); }
   55%, 100% { transform: translateX(120%); }
@@ -596,8 +622,8 @@ body {
 .anim-pop { animation: pop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.4) both; }
 
 @keyframes drift {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-22px) rotate(8deg); }
+  0%, 100% { transform: translateY(0) scale(var(--float-scale, 1)) rotate(var(--float-rotate, 0deg)); }
+  50% { transform: translateY(-18px) scale(var(--float-scale, 1)) rotate(calc(var(--float-rotate, 0deg) + 5deg)); }
 }
 
 @keyframes pulse-glow {

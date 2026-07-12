@@ -1,5 +1,14 @@
 import { useMemo } from "react";
-import { USER_DATA } from "../../data/userData";
+import {
+  Bot,
+  BookOpenCheck,
+  BrainCircuit,
+  Braces,
+  Cpu,
+  MessageCircle,
+  Network,
+  ShieldCheck,
+} from "lucide-react";
 
 /**
  * Light decorative layer (Prototype 2): soft pastel gradient blobs,
@@ -14,17 +23,28 @@ const BLOBS = [
   { color: "#c3f2d9", size: 340, top: "84%", left: "76%" },
 ];
 
+const AI_FLOATIES = [
+  { Icon: Bot, top: "15%", left: "4%", size: 54, delay: "0s", colors: ["#f7f3ff", "#8b5cf6"], rotate: "-8deg" },
+  { Icon: BrainCircuit, top: "24%", left: "88%", size: 62, delay: "1.2s", colors: ["#eef7ff", "#2f6bff"], rotate: "7deg" },
+  { Icon: Network, top: "47%", left: "93%", size: 48, delay: "2s", colors: ["#ecfeff", "#20c7e8"], rotate: "-5deg" },
+  { Icon: Braces, top: "68%", left: "5%", size: 46, delay: "1.6s", colors: ["#fff7ed", "#ff9d2e"], rotate: "8deg" },
+  { Icon: Cpu, top: "78%", left: "86%", size: 54, delay: "2.8s", colors: ["#f0fdf4", "#22c55e"], rotate: "-6deg" },
+  { Icon: BookOpenCheck, top: "36%", left: "10%", size: 50, delay: "3.4s", colors: ["#fff1f8", "#ec4899"], rotate: "5deg" },
+  { Icon: ShieldCheck, top: "58%", left: "82%", size: 44, delay: "0.8s", colors: ["#eef2ff", "#5b7cff"], rotate: "4deg" },
+  { Icon: MessageCircle, top: "86%", left: "13%", size: 42, delay: "2.4s", colors: ["#f5f3ff", "#a855f7"], rotate: "-7deg" },
+];
+
 export default function CosmicBackground() {
   const sparkles = useMemo(
     () =>
-      Array.from({ length: 40 }, (_, i) => {
+      Array.from({ length: 24 }, (_, i) => {
         const seed = (i * 2654435761) % 1000;
         return {
           left: `${(seed * 7) % 100}%`,
           top: `${(seed * 13) % 100}%`,
           size: 2 + ((seed * 3) % 16) / 8,
           delay: `${(seed % 50) / 10}s`,
-          color: ["#8b3dff", "#2f6bff", "#ff9d2e", "#0aa8d6"][i % 4],
+          color: ["#8b3dff", "#2f6bff", "#ff9d2e", "#0aa8d6", "#ec4899", "#22c55e"][i % 6],
         };
       }),
     []
@@ -58,23 +78,28 @@ export default function CosmicBackground() {
             width: s.size,
             height: s.size,
             background: s.color,
-            opacity: 0.35,
+            opacity: 0.22,
             animation: `twinkle 5s ease-in-out ${s.delay} infinite`,
           }}
         />
       ))}
 
-      {USER_DATA.floaties.map((f, i) => (
+      {AI_FLOATIES.map(({ Icon, colors, size, rotate, ...f }, i) => (
         <span
           key={i}
-          className="absolute text-3xl md:text-4xl opacity-40 select-none"
+          className="ai-floatie absolute grid select-none place-items-center"
           style={{
             top: f.top,
             left: f.left,
-            animation: `drift 7s ease-in-out ${f.delay} infinite`,
+            width: size,
+            height: size,
+            color: colors[1],
+            background: `linear-gradient(145deg, ${colors[0]} 0%, rgba(255,255,255,0.7) 42%, ${colors[1]}33 100%)`,
+            "--float-rotate": rotate,
+            animation: `drift 8s ease-in-out ${f.delay} infinite`,
           }}
         >
-          {f.emoji}
+          <Icon size={Math.round(size * 0.48)} strokeWidth={2.5} aria-hidden="true" />
         </span>
       ))}
     </div>
