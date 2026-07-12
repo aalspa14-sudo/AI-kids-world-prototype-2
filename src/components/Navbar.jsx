@@ -1,10 +1,29 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import {
+  BookOpen,
+  Building2,
+  Gamepad2,
+  Info,
+  Menu,
+  Rocket,
+  School,
+  ShoppingCart,
+  X,
+} from "lucide-react";
 import { USER_DATA } from "../data/userData";
-import { RainbowText, scrollToId } from "./shared";
+import { scrollToId } from "./shared";
+
+const NAV_LINKS = [
+  { label: "Books", href: "#book", icon: BookOpen },
+  { label: "Activities", href: "#activities", icon: Gamepad2 },
+  { label: "AI Playground", href: "#waitlist", icon: Rocket, featured: true, badge: "Coming Soon" },
+  { label: "Parents", href: "#parents", icon: Building2 },
+  { label: "Schools", href: "#waitlist", icon: School },
+  { label: "About", href: "#top", icon: Info },
+];
 
 export default function Navbar() {
-  const { brand, nav } = USER_DATA;
+  const { brand } = USER_DATA;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleNavClick = (e, href) => {
@@ -14,91 +33,166 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-xl bg-[rgba(255,255,255,0.78)] border-b border-[rgba(93,105,190,0.12)]">
-      <nav className="wrap flex items-center justify-between py-3.5">
-        {/* Brand */}
+    <header className="sticky top-0 z-40 px-3 pt-3 sm:px-4">
+      <nav
+        className="nav-shell-3d relative mx-auto flex min-h-[76px] max-w-[1560px] items-center justify-between gap-3 rounded-[34px] px-4 py-3 sm:px-5 lg:px-6"
+        aria-label="Primary navigation"
+      >
         <a
           href="#top"
-          className="flex items-center gap-3"
+          className="nav-brand-capsule group flex min-w-0 items-center justify-center outline-none transition-transform duration-300 hover:-translate-y-0.5 focus-visible:ring-4 focus-visible:ring-white/35"
           onClick={(e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
+            setMobileOpen(false);
           }}
         >
-          <span
-            className="w-10 h-10 rounded-full flex items-center justify-center text-xl bg-white"
-            style={{ boxShadow: "0 6px 18px rgba(93,105,190,0.25), 0 0 0 3px rgba(139,61,255,0.15)" }}
-            aria-hidden="true"
-          >
-            {brand.logoEmoji}
-          </span>
-          <span className="font-display font-extrabold text-lg leading-tight">
-            <RainbowText text={brand.name} />
-            <span className="block text-[11px] font-body font-bold text-[var(--text-muted)] tracking-wide uppercase">
-              {brand.tagline}
-            </span>
-          </span>
+          <img
+            src="/ai-kids-world-logo-nav-transparent.png"
+            alt="AI Kids World"
+            className="nav-logo-image nav-logo-nudge-left h-auto max-h-[66px] w-auto max-w-[225px] shrink-0 object-contain object-center sm:max-w-[270px] lg:max-w-[305px]"
+          />
         </a>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-8">
-          {nav.links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="font-bold text-[15px] text-[var(--text-muted)] hover:text-[var(--purple)] transition-colors"
-            >
-              {link.label}
-            </a>
+        <div className="hidden items-center gap-1.5 xl:flex xl:gap-2">
+          {NAV_LINKS.map((link) => (
+            <NavLink key={link.label} link={link} onClick={handleNavClick} />
           ))}
-          <PlaygroundPill cta={nav.playgroundCta} />
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden p-2 text-[var(--text-primary)]"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            onClick={() => scrollToId("book")}
+            className="nav-cta-secondary group hidden items-center gap-2 rounded-full px-4 py-3 font-display text-[14px] font-extrabold text-[var(--text-primary)] outline-none transition-all duration-300 hover:-translate-y-1 focus-visible:ring-4 focus-visible:ring-white/35 xl:inline-flex"
+          >
+            <BookOpen size={17} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5" />
+            Preview Book
+          </button>
+          <AmazonButton href={brand.amazonUrl} compact />
+          <AmazonButton href={brand.amazonUrl} className="hidden md:inline-flex" />
+          <button
+            type="button"
+            className="nav-icon-button inline-flex h-12 w-12 items-center justify-center rounded-2xl text-white outline-none transition-all duration-300 hover:-translate-y-1 focus-visible:ring-4 focus-visible:ring-white/35 xl:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden wrap pb-5 flex flex-col gap-4 anim-pop">
-          {nav.links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="font-bold text-[var(--text-muted)] hover:text-[var(--purple)]"
+        <div
+          id="mobile-navigation"
+          className="nav-mobile-panel nav-mobile-3d mx-auto mt-3 max-w-[1560px] rounded-[26px] p-3 backdrop-blur-2xl xl:hidden"
+        >
+          <div className="grid gap-2 sm:grid-cols-2">
+            {NAV_LINKS.map((link) => (
+              <MobileNavLink key={link.label} link={link} onClick={handleNavClick} />
+            ))}
+          </div>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={() => {
+                scrollToId("book");
+                setMobileOpen(false);
+              }}
+              className="nav-cta-secondary inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl px-4 py-3 font-display text-[15px] font-extrabold text-[var(--text-primary)] outline-none transition-all duration-300 hover:-translate-y-1 focus-visible:ring-4 focus-visible:ring-white/35"
             >
-              {link.label}
-            </a>
-          ))}
-          <PlaygroundPill cta={nav.playgroundCta} onNavigate={() => setMobileOpen(false)} />
+              <BookOpen size={18} aria-hidden="true" />
+              Preview Book
+            </button>
+            <AmazonButton href={brand.amazonUrl} mobile onClick={() => setMobileOpen(false)} />
+          </div>
         </div>
       )}
     </header>
   );
 }
 
-function PlaygroundPill({ cta, onNavigate }) {
+function NavLink({ link, onClick }) {
+  const Icon = link.icon;
+
+  if (link.featured) {
+    return (
+      <a
+        href={link.href}
+        onClick={(e) => onClick(e, link.href)}
+        className="nav-featured-pill group relative inline-flex min-h-[52px] items-center gap-2 rounded-full px-4 py-2 font-display text-[14px] font-extrabold outline-none transition-all duration-300 hover:-translate-y-1 focus-visible:ring-4 focus-visible:ring-white/35 xl:px-5"
+      >
+        <span className="nav-featured-icon grid h-8 w-8 place-items-center rounded-full text-white transition-transform duration-300 group-hover:-translate-y-1 group-hover:rotate-6">
+          <Icon size={17} aria-hidden="true" />
+        </span>
+        <span className="flex flex-col leading-none">
+          <span>AI Playground</span>
+          <span className="playground-badge mt-1 w-fit rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.04em]">
+            {link.badge}
+          </span>
+        </span>
+      </a>
+    );
+  }
+
   return (
-    <button
-      onClick={() => {
-        scrollToId(cta.targetId);
-        onNavigate?.();
-      }}
-      className="anim-bob anim-pulse-glow relative font-display font-bold text-[15px] text-white px-5 py-2.5 rounded-full cursor-pointer transition-transform hover:scale-105"
-      style={{ background: "var(--grad-nav-pill)" }}
+    <a
+      href={link.href}
+      onClick={(e) => onClick(e, link.href)}
+      className="nav-link-pill group inline-flex min-h-[48px] items-center gap-2 rounded-full px-3.5 py-2 font-display text-[14px] font-extrabold outline-none transition-all duration-300 hover:-translate-y-1 focus-visible:ring-4 focus-visible:ring-white/35 xl:px-4"
     >
-      {cta.label}
-      <span className="absolute -top-2.5 -right-3 text-[10px] font-body font-bold px-2 py-0.5 rounded-full text-[var(--gold)] bg-white border border-[rgba(245,158,11,0.45)] whitespace-nowrap shadow-sm">
-        {cta.tag}
+      <Icon size={16} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110" />
+      {link.label}
+    </a>
+  );
+}
+
+function MobileNavLink({ link, onClick }) {
+  const Icon = link.icon;
+
+  return (
+    <a
+      href={link.href}
+      onClick={(e) => onClick(e, link.href)}
+      className={`group flex min-h-[58px] items-center justify-between gap-3 rounded-2xl px-4 py-3 font-display text-[16px] font-extrabold outline-none transition-all duration-300 hover:-translate-y-1 focus-visible:ring-4 ${
+        link.featured
+          ? "nav-featured-pill focus-visible:ring-white/35"
+          : "nav-link-pill focus-visible:ring-white/35"
+      }`}
+    >
+      <span className="flex items-center gap-3">
+        <span className="nav-featured-icon grid h-10 w-10 place-items-center rounded-2xl text-white transition-transform duration-300 group-hover:-translate-y-0.5">
+          <Icon size={19} aria-hidden="true" />
+        </span>
+        <span className="flex flex-col leading-tight">
+          {link.label}
+          {link.badge && (
+            <span className="playground-badge mt-1 w-fit rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.04em]">
+              {link.badge}
+            </span>
+          )}
+        </span>
       </span>
-    </button>
+    </a>
+  );
+}
+
+function AmazonButton({ href, compact = false, mobile = false, className = "", onClick }) {
+  const label = compact ? "Buy" : "Buy on Amazon";
+  const visibility = compact ? "hidden sm:inline-flex md:hidden" : className;
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      onClick={onClick}
+      className={`nav-amazon-3d group min-h-[48px] items-center justify-center gap-2 rounded-full px-4 py-3 font-display text-[14px] font-extrabold text-white outline-none transition-all duration-300 hover:-translate-y-1 focus-visible:ring-4 focus-visible:ring-[rgba(168,85,247,0.34)] ${mobile ? "inline-flex min-h-[54px] text-[15px]" : visibility}`}
+    >
+      <ShoppingCart size={18} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:rotate-[-6deg]" />
+      {label}
+    </a>
   );
 }

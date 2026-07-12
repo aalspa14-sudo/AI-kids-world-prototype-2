@@ -1,5 +1,6 @@
 import CosmicBackground from "./components/decor/CosmicBackground";
 import Navbar from "./components/Navbar";
+import NavTagline from "./components/NavTagline";
 import Hero from "./components/Hero";
 import StatsBar from "./components/StatsBar";
 import FeatureTiles from "./components/FeatureTiles";
@@ -18,6 +19,7 @@ export default function App() {
       <CosmicBackground />
       <div className="relative">
         <Navbar />
+        <NavTagline />
         <main>
           <Hero />
           <StatsBar />
@@ -31,7 +33,7 @@ export default function App() {
         </main>
         <Footer />
       </div>
-      {/* Byte keeps his original orange cyber design — do not restyle. */}
+      {/* Byte keeps his playful orange maker-drone character design. */}
       <DroneBot />
     </>
   );

@@ -309,9 +309,9 @@ export const USER_DATA = {
   },
 
   /**
-   * Byte THE DRONE — DO NOT RESTYLE.
-   * This character ships from the book with his original orange
-   * cyber design. Identical to prototype 1 on purpose.
+   * Byte THE DRONE.
+   * This character uses the playful orange maker-drone design shown
+   * in the interactive companion SVG.
    */
   drone: {
     name: "Byte",

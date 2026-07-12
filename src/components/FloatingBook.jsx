@@ -56,7 +56,7 @@ export default function FloatingBook() {
               boxShadow: "0 34px 70px rgba(93,105,190,0.35), 0 8px 20px rgba(30,37,84,0.18)",
             }}
           >
-            {/* Real cover art — shown once it loads */}
+            {/* Real cover art - shown once it loads */}
             <img
               src={bookCover.src}
               alt={bookCover.alt}
@@ -64,7 +64,7 @@ export default function FloatingBook() {
               className={coverLoaded ? "w-full h-full object-cover" : "hidden"}
             />
 
-            {/* Placeholder cover — replaced by book-cover.png automatically */}
+            {/* Placeholder cover - replaced by book-cover.png automatically */}
             {!coverLoaded && (
               <div
                 className="w-full h-full flex flex-col items-center justify-between text-center px-6 py-8"

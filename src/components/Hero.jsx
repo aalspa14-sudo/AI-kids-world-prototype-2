@@ -10,7 +10,7 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative pt-14 pb-10 md:pt-20 md:pb-14">
-      <div className="wrap grid lg:grid-cols-2 gap-14 items-center">
+      <div className="wrap grid lg:grid-cols-2 gap-10 items-center">
         {/* Copy */}
         <div>
           <h1 className="h1-hero">
