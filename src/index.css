@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+/* ============================================================
+   AI KIDS WORLD — "Bright 3D EdTech" Design System (Prototype 2)
+   Extracted from the reference image: light glassmorphism,
+   pure-white cards, heavy radii, soft diffuse shadows,
+   rainbow accents on deep navy type.
+
+   NOTE: variable names intentionally match prototype 1 so the
+   shared component architecture reskins without logic changes.
+   ============================================================ */
+
+:root {
+  /* backgrounds */
+  --bg-base: linear-gradient(165deg, #f6f4ff 0%, #eef3ff 40%, #f2f7ff 70%, #f7f3ff 100%);
+  --surface: #f3f5fd;                 /* inset panels on white cards */
+  --surface-alt: #ffffff;             /* raised / input surfaces */
+
+  /* text */
+  --text-primary: #1e2554;
+  --text-muted: #5c6483;
+
+  /* accents (darkened for legibility on light bg) */
+  --cyan: #0aa8d6;
+  --green: #16a34a;
+  --purple: #7c3aed;
+  --gold: #f59e0b;
+  --pink: #ec4899;
+  --blue: #2f6bff;
+
+  /* gradients */
+  --grad-hero-text: linear-gradient(96deg, #2f6bff 0%, #8b3dff 30%, #ff9d2e 55%, #22c55e 78%, #0aa8d6 100%);
+  --grad-primary-btn: linear-gradient(120deg, #8b3dff, #5b5bf0);
+  --grad-book-cover: linear-gradient(135deg, #7c3aed, #2f6bff);
+  --grad-nav-pill: linear-gradient(120deg, #8b3dff, #5b5bf0);
+
+  /* structure */
+  --radius-base: 18px;
+  --radius-card: 26px;
+  --radius-pill: 999px;
+  --radius-chip: 16px;
+  --border-glow: 1px solid rgba(93, 105, 190, 0.14);
+  --shadow-card: 0 2px 6px rgba(30, 37, 84, 0.04), 0 24px 60px rgba(93, 105, 190, 0.14);
+  --shadow-button: 0 12px 30px rgba(124, 58, 237, 0.35);
+
+  /* typography */
+  --font-display: 'Baloo 2', 'Fredoka', sans-serif;
+  --font-body: 'Nunito', 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f2f4fd;
+  background-image: var(--bg-base);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* ---------- reusable primitives ---------- */
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* Pure white card, heavy radius, soft diffuse drop shadow (reference style) */
+.card {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* Frosted glass panel (floating hero chips, navbar) */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-base);
+  box-shadow: 0 12px 34px rgba(93, 105, 190, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple);
+  background: rgba(124, 58, 237, 0.09);
+  border: 1px solid rgba(124, 58, 237, 0.22);
+}
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border-radius: var(--radius-pill);
+  background: var(--grad-primary-btn);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-button);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 38px rgba(124, 58, 237, 0.45);
+}
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: shine 3s ease-in-out infinite;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border-radius: var(--radius-pill);
+  background: #ffffff;
+  border: 1px solid rgba(93, 105, 190, 0.18);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(93, 105, 190, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.btn-ghost:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(93, 105, 190, 0.2);
+}
+
+.hero-accent {
+  background: var(--grad-hero-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.h1-hero {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(38px, 5vw, 62px);
+  line-height: 1.05;
+}
+
+.h2-section {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 40px);
+  line-height: 1.15;
+}
+
+.chip {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-chip);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ---------- keyframes (unchanged from prototype 1) ---------- */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-16px) rotate(1deg); }
+}
+.anim-float { animation: float 5.5s ease-in-out infinite; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.anim-bob { animation: bob 2.4s ease-in-out infinite; }
+
+@keyframes shine {
+  0% { transform: translateX(-120%); }
+  55%, 100% { transform: translateX(120%); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.anim-pop { animation: pop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.4) both; }
+
+@keyframes drift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-22px) rotate(8deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 10px 26px rgba(124, 58, 237, 0.35); }
+  50% { box-shadow: 0 14px 40px rgba(91, 91, 240, 0.55); }
+}
+.anim-pulse-glow { animation: pulse-glow 2.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-float, .anim-bob, .anim-pop, .anim-pulse-glow,
+  .btn-primary::after {
+    animation: none !important;
+  }
+}
