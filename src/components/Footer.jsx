@@ -1,4 +1,5 @@
 import { USER_DATA } from "../data/userData";
+import SocialFollow from "./SocialFollow";
 
 export default function Footer() {
   const { footer } = USER_DATA;
@@ -8,6 +9,7 @@ export default function Footer() {
       <div className="wrap text-center">
         <p className="font-display font-bold text-sm">{footer.copyright}</p>
         <p className="mt-1.5 text-xs font-semibold text-[var(--text-muted)]">{footer.privacyLine}</p>
+        <SocialFollow label="Follow AI Kids World" className="footer-social-follow" />
       </div>
     </footer>
   );

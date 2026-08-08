@@ -1,6 +1,5 @@
 import CosmicBackground from "./components/decor/CosmicBackground";
 import Navbar from "./components/Navbar";
-import NavTagline from "./components/NavTagline";
 import Hero from "./components/Hero";
 import StatsBar from "./components/StatsBar";
 import FeatureTiles from "./components/FeatureTiles";
@@ -19,8 +18,7 @@ export default function App() {
       <CosmicBackground />
       <div className="relative">
         <Navbar />
-        <NavTagline />
-        <main>
+        <main className="site-main">
           <Hero />
           <StatsBar />
           <FeatureTiles />
