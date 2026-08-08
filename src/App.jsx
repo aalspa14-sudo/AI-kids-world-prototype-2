@@ -18,7 +18,7 @@ export default function App() {
       <CosmicBackground />
       <div className="relative">
         <Navbar />
-        <main>
+        <main className="site-main">
           <Hero />
           <StatsBar />
           <FeatureTiles />

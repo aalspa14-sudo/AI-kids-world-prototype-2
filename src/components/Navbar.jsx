@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BookOpen,
   Building2,
@@ -26,6 +26,34 @@ const NAV_LINKS = [
 export default function Navbar() {
   const { brand } = USER_DATA;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return undefined;
+
+    const updateHeaderOffset = () => {
+      document.documentElement.style.setProperty(
+        "--site-header-measured-height",
+        `${Math.ceil(header.getBoundingClientRect().height)}px`
+      );
+    };
+
+    updateHeaderOffset();
+    if (typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", updateHeaderOffset);
+      return () => window.removeEventListener("resize", updateHeaderOffset);
+    }
+
+    const observer = new ResizeObserver(updateHeaderOffset);
+    observer.observe(header);
+    window.addEventListener("resize", updateHeaderOffset);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateHeaderOffset);
+    };
+  }, []);
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
@@ -34,23 +62,25 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 px-0 pt-3">
+    <header ref={headerRef} className="site-header fixed left-0 right-0 top-0 z-40 px-0 pt-3">
       <div className="nav-header-row mx-auto flex max-w-[1560px] items-center">
-        <a
-          href="#top"
-          className="nav-brand-standalone group flex min-w-0 items-center justify-start outline-none transition-transform duration-300 hover:-translate-y-0.5 focus-visible:ring-4 focus-visible:ring-white/35"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            setMobileOpen(false);
-          }}
-        >
-          <img
-            src="/ai-kids-world-logo-nav-transparent.png"
-            alt="AI Kids World"
-            className="nav-logo-image h-auto w-auto shrink-0 object-contain object-left"
-          />
-        </a>
+        <div className="nav-brand-area">
+          <a
+            href="#top"
+            className="nav-brand-standalone group flex min-w-0 items-center justify-start outline-none transition-transform duration-300 hover:-translate-y-0.5 focus-visible:ring-4 focus-visible:ring-white/35"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              setMobileOpen(false);
+            }}
+          >
+            <img
+              src="/ai-kids-world-logo-nav-transparent.png"
+              alt="AI Kids World"
+              className="nav-logo-image h-auto w-auto shrink-0 object-contain object-left"
+            />
+          </a>
+        </div>
 
         <div className="nav-right-stack">
           <nav
